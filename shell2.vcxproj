@@ -99,6 +99,7 @@ make all</NMakeReBuildCommandLine>
     <None Include="make-rka.js" />
     <None Include="Makefile" />
     <None Include="mem.asm" />
+    <None Include="README.md" />
     <None Include="shell.lst" />
     <None Include="shell.s" />
     <None Include="shell.sym" />

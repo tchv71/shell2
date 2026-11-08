@@ -26,6 +26,7 @@
     <None Include="make-rka.js" />
     <None Include="shell.lst" />
     <None Include="shell.sym" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cmd_copymove.c">
