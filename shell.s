@@ -6373,17 +6373,11 @@ __interface_drawPanel__lc:
 ; ---- vLine ----
 _vLine:
 _vLine.b0:
-	LD (__interface_l14_a),HL
-	LD (__interface_l15_h),A
 	LD A,E
 	PUSH BC
-	LD D,A
-	LD A,(_radio86rkVideoBpl)
-	LD C,A
-	LD B,0
-	LD A,(__interface_l15_h)
+	LD D,E
 	LD E,A
-	LD HL,(__interface_l14_a)
+	LD BC,80
 vLine_l0:
 	DI
 	LD A,L
@@ -6639,13 +6633,8 @@ _hideFileCursor:
 ; ---- hLine ----
 _hLine:
 _hLine.b0:
-	LD (__interface_l16_a),HL
-	LD (__interface_l17_c),A
 	LD A,E
-	LD E,A
-	LD A,(__interface_l17_c)
 	LD D,A
-	LD HL,(__interface_l16_a)
 	DI
 	LD A,L
 	OUT (98h + 1),A
@@ -6751,9 +6740,9 @@ _i2s32:
 	INC HL
 	LD D,(HL)
 	POP HL
-	LD (__interface_l18_v),HL
+	LD (__interface_l14_v),HL
 	EX DE,HL
-	LD (__interface_l18_v+2),HL
+	LD (__interface_l14_v+2),HL
 	POP HL
 	ADD HL,BC
 	LD (HL),0
@@ -6762,23 +6751,23 @@ _i2s32:
 	LD L,C
 .b1:
 	LD (__interface___x80_spill_i2s32),HL
-	LD HL,(__interface_l18_v+2)
+	LD HL,(__interface_l14_v+2)
 	EX DE,HL
-	LD HL,(__interface_l18_v)
+	LD HL,(__interface_l14_v)
 	LD BC,0
 	PUSH BC
 	LD C,10
 	CALL __x80_ludiv
 	POP BC
-	LD (__interface_l18_v),HL
+	LD (__interface_l14_v),HL
 	EX DE,HL
-	LD (__interface_l18_v+2),HL
+	LD (__interface_l14_v+2),HL
 	LD HL,(__interface___x80_spill_i2s32+2)
 	EX DE,HL
 	DEC DE
 	PUSH DE
 	CALL __x80_remainder
-	LD BC,__interface_anon19
+	LD BC,__interface_anon15
 	ADD HL,BC
 	LD A,(HL)
 	POP BC
@@ -6790,7 +6779,7 @@ _i2s32:
 	OR D
 	RET Z
 .b3:
-	LD HL,(__interface_l18_v)
+	LD HL,(__interface_l14_v)
 	LD A,L
 	OR H
 	JP Z,.b4
@@ -6801,7 +6790,7 @@ _i2s32:
 	EX DE,HL
 	JP .b1
 .b4:
-	LD HL,(__interface_l18_v+2)
+	LD HL,(__interface_l14_v+2)
 	LD A,L
 	OR H
 	JP NZ,.b6
@@ -6849,7 +6838,7 @@ _i2s:
 	EX DE,HL
 	DEC DE
 	LD H,0
-	LD BC,__interface_anon20
+	LD BC,__interface_anon16
 	ADD HL,BC
 	LD A,(HL)
 	LD (DE),A
@@ -6879,9 +6868,9 @@ _i2s:
 	ENDIF
 
 ; ---- data ----
-__interface_anon20:
+__interface_anon16:
 	DEFB 48,49,50,51,52,53,54,55,56,57,0
-__interface_anon19:
+__interface_anon15:
 	DEFB 48,49,50,51,52,53,54,55,56,57,65,66,67,68,69,70,0
 	DEFINE __X80_DEF_attrHidden
 _attrHidden:
@@ -6914,9 +6903,6 @@ __interface_anon2:
 	DEFB 102,97,106,108,101,32,0
 __interface_anon1:
 	DEFB 102,97,106,108,97,104,32,0
-	DEFINE __X80_DEF_radio86rkVideoBpl
-_radio86rkVideoBpl:
-	DEFB 80
 __interface_anon12:
 	DEFB 105,109,113,0
 __interface_anon13:
@@ -6931,14 +6917,6 @@ __x80_bss_off = __x80_bss_off + 5
 __interface___x80_spill_i2s32 EQU __x80_bss_top - __x80_bss_off
 __x80_bss_off = __x80_bss_off + 7
 __interface___x80_spill_i2s EQU __x80_bss_top - __x80_bss_off
-__x80_bss_off = __x80_bss_off + 1
-__interface_l15_h EQU __x80_bss_top - __x80_bss_off
-__x80_bss_off = __x80_bss_off + 2
-__interface_l14_a EQU __x80_bss_top - __x80_bss_off
-__x80_bss_off = __x80_bss_off + 1
-__interface_l17_c EQU __x80_bss_top - __x80_bss_off
-__x80_bss_off = __x80_bss_off + 2
-__interface_l16_a EQU __x80_bss_top - __x80_bss_off
 	DEFINE __X80_DEF_buf
 __x80_bss_off = __x80_bss_off + 16
 _buf EQU __x80_bss_top - __x80_bss_off
@@ -6948,7 +6926,7 @@ _fileCursorAddr EQU __x80_bss_top - __x80_bss_off
 	DEFINE __X80_DEF_activePanel
 __x80_bss_off = __x80_bss_off + 1
 _activePanel EQU __x80_bss_top - __x80_bss_off
-__interface_l18_v EQU __x80_frames+11
+__interface_l14_v EQU __x80_frames+11
 
 	IFNDEF X80_OPT_SIZE
 	DEFINE X80_OPT_SIZE

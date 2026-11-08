@@ -181,10 +181,10 @@ void setch(uchar c)
 //---------------------------------------------------------------------------
 void hLine(uchar* a, uchar c, uchar w) {
   asm{
-    mov e, a
-    lda hLine_2
     mov d, a
-    lhld hLine_1
+    ; mov e, a
+    ; lda hLine_2
+    ; lhld hLine_1
     di
     mov  a,l
     out  98h + 1
@@ -204,13 +204,14 @@ hLine_l0 :
 void vLine(uchar* a, uchar h, uchar c) {
   asm{
     push b
-    mov d, a
-    lda radio86rkVideoBpl
-    mov c, a
-    mvi b, 0
-    lda vLine_2
+    mov d, e
     mov e, a
-    lhld vLine_1
+    ; lda radio86rkVideoBpl
+    ; mov c, a
+    lxi b,80
+    ; mvi b, 0
+    ; lda vLine_2
+    ; lhld vLine_1
 vLine_l0 :
     di
     mov  a,l
