@@ -6367,34 +6367,6 @@ __interface_drawPanel__lc:
 	JP _print2
 	ENDIF
 
-	DEFINE __X80_DEF_vLine
-	IFUSED _vLine
-
-; ---- vLine ----
-_vLine:
-_vLine.b0:
-	LD A,E
-	PUSH BC
-	LD D,E
-	LD E,A
-	LD BC,80
-vLine_l0:
-	DI
-	LD A,L
-	OUT (98h + 1),A
-	LD A,H
-	OR 40h
-	OUT (98h + 1),A
-	EI
-	LD A,D
-	OUT (98h),A
-	ADD HL,BC
-	DEC E
-	JP NZ,vLine_l0
-	POP BC
-	RET
-	ENDIF
-
 	IFUSED __interface_drawRect__lc
 
 ; ---- drawRect__lc ----
@@ -6624,29 +6596,6 @@ _hideFileCursor:
 	CALL _hLine
 	LD HL,0
 	LD (_fileCursorAddr),HL
-	RET
-	ENDIF
-
-	DEFINE __X80_DEF_hLine
-	IFUSED _hLine
-
-; ---- hLine ----
-_hLine:
-_hLine.b0:
-	LD A,E
-	LD D,A
-	DI
-	LD A,L
-	OUT (98h + 1),A
-	LD A,H
-	OR 40h
-	OUT (98h + 1),A
-	EI
-	LD A,D
-hLine_l0:
-	OUT (98h),A
-	DEC E
-	JP NZ,hLine_l0
 	RET
 	ENDIF
 

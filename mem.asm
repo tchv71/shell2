@@ -68,13 +68,7 @@ memcpy_back_l2:
 
 ;void print2(uchar* dest, char* text) {
 _print2:
-    di
-    ld   a,l
-    out  (98h+1), a
-    ld   a,h
-    or   40h
-    out  (98h+1), a
-    ei
+    call setVdpAddr
 print2_loop:
     ld  a, (de)
     or  a
@@ -86,11 +80,7 @@ print2_loop:
 ;void print2m(uchar* dest, uchar len, char* text) {
 _print2m:
     ld   b, a
-    ld   a,l
-    out  (98h + 1), a
-    ld   a,h
-    or   40h
-    out  (98h + 1), a
+    call setVdpAddr
 print2m_loop:
     ld   a, (de)
     or   a
@@ -105,11 +95,7 @@ print2m_ret:
 ;void print2n(uchar* dest, uchar len, char* text) {
 _print2n:
     ld   b, a
-    ld   a,l
-    out  (98h + 1), a
-    ld   a,h
-    or   40h
-    out  (98h + 1), a
+    call setVdpAddr
 print2n_loop:
     ld   a, (de)
     or   a
@@ -124,11 +110,7 @@ print2n_ret:
 ;void print2cn(uchar* dest, uchar len, char c) {
 _print2cn:
     ld   d, a
-    ld   a,l
-    out  (98h + 1), a
-    ld   a,h
-    or   40h
-    out  (98h + 1), a
+    call setVdpAddr
     ld   a, e
 print2cn_loop:
     out  (98h), a
@@ -243,11 +225,7 @@ _fillRect:
 fillRect_l1:  
     ;lda fillRect_2
     push hl
-    ld   a,l
-    out  (98h + 1), a
-    ld   a,h
-    or   40h
-    out  (98h + 1), a
+    call setVdpAddr
     ;lda  fillRect_4
     ld   a,b
 
@@ -263,4 +241,43 @@ fillRect_l0:
     dec  d
     jp   nz, fillRect_l1
     pop  bc
+    ret
+
+;void hLine(uchar* a, uchar c, uchar w);
+_hLine:
+    ld   d, a
+    ; mov e, a
+    ; lda hLine_2
+    ; lhld hLine_1
+    call setVdpAddr
+    ld   a, d
+hLine_l0 :
+    OUT  (98h), a
+    ; mov m, d
+    dec  e
+    jp	 nz, hLine_l0
+    ret
+
+;void vLine(uchar* a, uchar h, uchar c) {
+_vLine:
+    ld   d,e
+    ld   e, a
+    ld   bc,80
+vLine_l0:
+    call setVdpAddr
+    ld   a, d
+    OUT  (98h), a
+    add   hl, bc
+    dec   e
+    jp	  nz, vLine_l0
+    ret
+
+setVdpAddr:
+    di
+    ld   a,l
+    out  (98h + 1), a
+    ld   a,h
+    or   40h
+    out  (98h + 1), a
+    ei
     ret

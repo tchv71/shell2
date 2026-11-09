@@ -179,56 +179,9 @@ void setch(uchar c)
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-void hLine(uchar* a, uchar c, uchar w) {
-  asm{
-    mov d, a
-    ; mov e, a
-    ; lda hLine_2
-    ; lhld hLine_1
-    di
-    mov  a,l
-    out  98h + 1
-    mov  a,h
-    ori  40h
-    out  98h + 1
-    ei
-    mov  a, d
-hLine_l0 :
-    OUT  98h
-    ; mov m, d
-    dcr e
-    jnz hLine_l0
-  }
-}
+void hLine(uchar* a, uchar c, uchar w);
+void vLine(uchar* a, uchar h, uchar c);
 
-void vLine(uchar* a, uchar h, uchar c) {
-  asm{
-    push b
-    mov d, e
-    mov e, a
-    ; lda radio86rkVideoBpl
-    ; mov c, a
-    lxi b,80
-    ; mvi b, 0
-    ; lda vLine_2
-    ; lhld vLine_1
-vLine_l0 :
-    di
-    mov  a,l
-    out  98h + 1
-    mov  a,h
-    ori  40h
-    out  98h + 1
-    ei
-    mov  a, d
-    OUT  98h
-    ; mov m, d
-    dad b
-    dcr e
-    jnz vLine_l0
-    pop b
-  }
-}
 // Скрыть курсор
 uchar attrHidden = 0xF4;
 uchar attrShow = 0x4F;
