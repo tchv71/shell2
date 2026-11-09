@@ -99,12 +99,11 @@ _print2n:
 print2n_loop:
     ld   a, (de)
     or   a
-    jp   z, print2n_ret
+    ret   z
     out  (98h), a
     inc  de
     dec  b
     jp   nz, print2n_loop 
-print2n_ret:
     ret
 
 ;void print2cn(uchar* dest, uchar len, char c) {
@@ -146,7 +145,6 @@ _fs_findfirst:
     jp   nz, fs_ff0
     inc  hl
 fs_ff0:
-    ; hl = fs_findfirst_3
     push de
     push bc
     pop  de
@@ -158,7 +156,6 @@ fs_ff0:
 
 ;uchar fs_open0(const char* name, uchar mode) {
 _fs_open0:
-    ; a = fs_open0_2
     ld   D, A 
     ld   A, 2
     jp   _fs_entry
@@ -166,14 +163,12 @@ _fs_open0:
 
 ;uchar fs_write(const void* buf, uint size) {
 _fs_write:
-    ; hl = fs_write_2
     ex   de, hl
     LD   A, 5
     jp   _fs_entry ; HL-размер, DE-адрес / A-код ошибки
 
 ;uchar fs_seek(uint low, uint high, uchar mode) {
 _fs_seek:
-    ; a = fs_seek_3
     ld   B, A
     ld   A, 3
     CALL _fs_entry ; B-режим, DE:HL-имя файла / A-код ошибки, DE:HL-позиция
@@ -207,26 +202,20 @@ _putch:
     jp   0F809h
 
 _main:
-	CALL    _fs_init
-	JP	    _main2
+    CALL _fs_init
+    JP	 _main2
 
 ;void fillRect(uchar* a, uchar w, uchar h, uchar c) {
 _fillRect:
     push bc
-    ;lda fillRect_2
     ld   e, a
     ld   a, 80;radio86rkVideoBpl
     ld   b, c
     ld   c, a
-    ;ld   b, 0
-    ;lhld fillRect_1
-    ;lda fillRect_3
     ld   d, e
 fillRect_l1:  
-    ;lda fillRect_2
     push hl
     call setVdpAddr
-    ;lda  fillRect_4
     ld   a,b
 
 fillRect_l0:
@@ -246,14 +235,10 @@ fillRect_l0:
 ;void hLine(uchar* a, uchar c, uchar w);
 _hLine:
     ld   d, a
-    ; mov e, a
-    ; lda hLine_2
-    ; lhld hLine_1
     call setVdpAddr
     ld   a, d
 hLine_l0 :
     OUT  (98h), a
-    ; mov m, d
     dec  e
     jp	 nz, hLine_l0
     ret
