@@ -14,7 +14,7 @@ extern char  cmdline[256];
 extern uint op_div16_mod;
 
 char   editorApp[] = "BOOT/EDIT.RK";
-char   viewerApp[] = "BOOT/VIEW.RK";
+char   viewerApp[] = "BOOT/VIEWM.RK";
 Panel  panelA;
 Panel  panelB;
 char   cmdline[256]; 
